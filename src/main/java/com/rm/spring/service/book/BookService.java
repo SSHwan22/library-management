@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookService {
 
@@ -68,6 +67,7 @@ public class BookService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<BookResponseDto> loanHistory(String title) {
         return bookMapper.loanHistory(title);
     }

@@ -7,6 +7,7 @@ import com.rm.spring.service.user.dto.request.UserRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    @Transactional
     public int register(UserRequestDto.Register requestDto) {
         try {
             return userMapper.register(requestDto);
