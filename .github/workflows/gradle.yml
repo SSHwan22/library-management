@@ -32,6 +32,9 @@ jobs:
       run: ./gradlew clean build
       shell: bash
 
+    - name: Build Test
+      run: ls -al ./build/libs
+      
     - name: SCP Files
       uses: appleboy/scp-action@master
       with:
