@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rm.spring.domain.book.repository.BookMapper">
+    <resultMap id="loanHistoryList" type="com.rm.spring.service.book.dto.response.BookResponseDto">
+        <id column="id" property="bookId" />
+        <result column="title" property="title" />
+        <result column="user_id" property="userId" />
+        <result column="loan_date" property="loanDate" />
+        <result column="return_date" property="returnDate" />
+    </resultMap>
+    <insert id="registerBook">
+        INSERT INTO book (
+            title
+            , author
+            , publisher
+            , updateDate
+        )
+        VALUES (
+            #{title}
+            , #{author}
+            , #{publisher}
+            , NOW()
+        )
+    </insert>
+
+    <update id="updateBook">
+        UPDATE book
+        SET title = #{requestDto.title}
+            , author = #{requestDto.author}
+            , publisher = #{requestDto.publisher}
+        WHERE id = #{bookId}
+    </update>
+
+    <select id="bookReturnStatus" resultType="boolean">
+        SELECT return_status
+        FROM book
+        WHERE id = #{bookId}
+    </select>
+
+    <insert id="loanBook">
+        INSERT INTO book_loan(
+            book_id
+            , user_id
+        )
+        VALUES(
+            #{bookId}
+            , #{userId}
+        )
+    </insert>
+
+    <update id="returnStatusUpdate">
+        UPDATE book
+        SET return_status = #{status}
+        WHERE id = #{bookId}
+    </update>
+
+    <select id="findBookId" resultType="int">
+        SELECT book_id
+        FROM book_loan
+        WHERE id = #{bookLoanId}
+    </select>
+
+    <update id="returnBook">
+        UPDATE book_loan
+        SET return_date = NOW()
+        WHERE id = #{bookLoanId}
+    </update>
+
+    <select id="loanHistory" resultMap="loanHistoryList">
+        SELECT b.id, b.title, bl.user_id, bl.loan_date, bl.return_date
+        FROM book b
+        JOIN book_loan bl ON b.id = bl.book_id
+        WHERE b.title = #{title}
+    </select>
+</mapper>

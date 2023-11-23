@@ -1,0 +1,14 @@
+server:
+  port: 8082
+spring:
+#  servlet:
+#    multipart:
+#
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-database.cgd23guqeryo.ap-northeast-2.rds.amazonaws.com:3306/library_management_db?characterEncoding=euckr&useUnicode=true&mysqlEncoding=euckr
+    username: rmsoftlibrarymanagement
+    password: RMsoft20231121
+mybatis:
+  config-location: classpath:mybatis-config.xml #??? typeAlias ?? ? ?? ?? ??
+  mapper-locations: mapper/*.xml
