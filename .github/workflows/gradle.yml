@@ -43,7 +43,7 @@ jobs:
         key: ${{secrets.REMOTE_SSH_KEY}}
         port: ${{secrets.REMOTE_SSH_PORT}}
         source: "./build/libs/*.jar"
-        target: "/opt/spring/library-management/"
+        target: "/home/ec2-user/"
         strip_components: 2
         
           
