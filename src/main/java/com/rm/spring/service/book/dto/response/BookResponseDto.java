@@ -13,6 +13,4 @@ public class BookResponseDto {
     private String userId;
     private LocalDateTime loanDate;
     private LocalDateTime returnDate;
-
-
 }

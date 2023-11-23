@@ -8,6 +8,7 @@
         <result column="loan_date" property="loanDate" />
         <result column="return_date" property="returnDate" />
     </resultMap>
+    
     <insert id="registerBook">
         INSERT INTO book (
             title
@@ -16,6 +17,7 @@
             , updateDate
         )
         VALUES (
+                
             #{title}
             , #{author}
             , #{publisher}
