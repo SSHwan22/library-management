@@ -69,6 +69,10 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public List<BookResponseDto> loanHistory(String title) {
-        return bookMapper.loanHistory(title);
+        List<BookResponseDto> list = bookMapper.loanHistory(title);
+        if(list.isEmpty())
+            throw new RestApiException(SqlErrorCode.NOT_FOUND);
+        return list;
+
     }
 }

@@ -34,7 +34,6 @@ public class BookController {
 
     @GetMapping("/{title}")
     public ApiResponse loanHistory(@PathVariable("title") String title) {
-//        return ApiResponse.success(bookService.loanHistory(title));
         return ApiResponse.success(bookService.loanHistory(title));
     }
 
