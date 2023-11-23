@@ -4,11 +4,17 @@
     <resultMap id="loanHistoryList" type="com.rm.spring.service.book.dto.response.BookResponseDto">
         <id column="id" property="bookId" />
         <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="publisher" property="publisher" />
+        <collection property="loanList" resultMap="bookLoanList" />
+    </resultMap>
+
+    <resultMap id="bookLoanList" type="com.rm.spring.service.book.dto.response.BookLoanResponseDto">
         <result column="user_id" property="userId" />
         <result column="loan_date" property="loanDate" />
         <result column="return_date" property="returnDate" />
     </resultMap>
-    
+
     <insert id="registerBook">
         INSERT INTO book (
             title
@@ -69,7 +75,7 @@
     </update>
 
     <select id="loanHistory" resultMap="loanHistoryList">
-        SELECT b.id, b.title, bl.user_id, bl.loan_date, bl.return_date
+        SELECT b.id, b.title, b.author, b.publisher, bl.user_id, bl.loan_date, bl.return_date
         FROM book b
         JOIN book_loan bl ON b.id = bl.book_id
         WHERE b.title = #{title}

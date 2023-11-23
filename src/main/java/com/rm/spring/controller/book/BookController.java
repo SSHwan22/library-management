@@ -1,13 +1,15 @@
 package com.rm.spring.controller.book;
 
-import com.rm.spring.common.dto.ApiResponse;
+import com.rm.spring.common.dto.response.ApiResponse;
 import com.rm.spring.service.book.BookService;
 import com.rm.spring.service.book.dto.request.BookRequestDto;
+import com.rm.spring.service.book.dto.response.BookResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,7 +22,7 @@ public class BookController {
     @PostMapping("")
     public ApiResponse registerBook(@RequestBody BookRequestDto.BookInfo requestDto){
         bookService.registerBook(requestDto);
-        return ApiResponse.success(requestDto);
+        return ApiResponse.SUCCESS;
     }
 
     @PutMapping("/{bookId}")
@@ -32,8 +34,10 @@ public class BookController {
 
     @GetMapping("/{title}")
     public ApiResponse loanHistory(@PathVariable("title") String title) {
+//        return ApiResponse.success(bookService.loanHistory(title));
         return ApiResponse.success(bookService.loanHistory(title));
     }
+
 
     @PostMapping("/{bookId}/loan")
     public ApiResponse loanBook(@PathVariable("bookId") int bookId
