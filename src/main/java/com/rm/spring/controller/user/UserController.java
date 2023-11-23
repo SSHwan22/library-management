@@ -1,6 +1,6 @@
 package com.rm.spring.controller.user;
 
-import com.rm.spring.common.dto.ApiResponse;
+import com.rm.spring.common.dto.response.ApiResponse;
 import com.rm.spring.service.user.UserService;
 import com.rm.spring.service.user.dto.request.UserRequestDto;
 import lombok.RequiredArgsConstructor;
