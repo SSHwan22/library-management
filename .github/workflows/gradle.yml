@@ -43,11 +43,13 @@ jobs:
         target: "/opt/spring/library-management/"
         strip_components: 2
 
-    - name: script run
+    - name: Script Run
       uses: appleboy/ssh-action@master
       with:
         host: ${{secrets.REMOTE_IP}}
         username: ${{secrets.REMOTE_SSH_USERNAME}}
         key: ${{secrets.REMOTE_SSH_KEY}}
         port: ${{secrets.REMOTE_SSH_PORT}}
-        script: sh /opt/spring/library-management/script/run.sh
+        script: |
+          sh /opt/spring/library-management/script/run.sh
+          echo 'end'
