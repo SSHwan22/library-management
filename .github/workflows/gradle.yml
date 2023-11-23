@@ -28,6 +28,6 @@ jobs:
         java-version: '11'
         
     - name: Build with Gradle
-      uses: ls -al
+      run: ls -al
       # with:
       #   arguments: build
