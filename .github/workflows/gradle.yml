@@ -29,4 +29,18 @@ jobs:
         distribution: 'temurin'
         
     - name: Build with Gradle
-      run: ls -al
+      run: /.gradlew clean build
+      shell: bash
+
+    - name: SCP Files
+      uses: appleboy/scp-action@v0.0.1
+      with:
+        host: $({secrets.REMOTE_IP})
+        username: $({secrets.REMOTE_SSH_USERNAME})
+        key: $({secrets.REMOTE_SSH_KEY})
+        port: $({secrets.REMOTE_SSH_PORT})
+        source: "./build/libs/*.jar"
+        target: "/opt/spring/library-management/"
+        
+          
+      
