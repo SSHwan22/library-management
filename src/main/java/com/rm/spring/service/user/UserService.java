@@ -17,10 +17,6 @@ public class UserService {
 
     @Transactional
     public int register(UserRequestDto.Register requestDto) {
-        try {
             return userMapper.register(requestDto);
-        } catch (DuplicateKeyException e) {
-            throw new RestApiException(SqlErrorCode.DUPLICATE_KEY);
-        }
     }
 }

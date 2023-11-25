@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rm.spring.domain.book.repository.BookMapper">
     <resultMap id="loanHistoryList" type="com.rm.spring.service.book.dto.response.BookResponseDto">
-        <id column="id" property="bookId" />
+        <id column="book_id" property="bookId" />
         <result column="title" property="title" />
         <result column="author" property="author" />
         <result column="publisher" property="publisher" />
@@ -10,12 +10,14 @@
     </resultMap>
 
     <resultMap id="bookLoanList" type="com.rm.spring.service.book.dto.response.BookLoanResponseDto">
+        <result column="book_stock_id" property="bookStockId" />
+        <result column="book_loan_id" property="bookLoanId" />
         <result column="user_id" property="userId" />
         <result column="loan_date" property="loanDate" />
         <result column="return_date" property="returnDate" />
     </resultMap>
 
-    <insert id="registerBook">
+    <insert id="registerBook" useGeneratedKeys="true" keyProperty="bookId">
         INSERT INTO book (
             title
             , author
@@ -31,6 +33,11 @@
         )
     </insert>
 
+    <insert id="registerBookStock">
+        INSERT INTO book_stock(book_id)
+        VALUES(#{bookid})
+    </insert>
+
     <update id="updateBook">
         UPDATE book
         SET title = #{requestDto.title}
@@ -41,31 +48,38 @@
 
     <select id="bookReturnStatus" resultType="boolean">
         SELECT return_status
-        FROM book
-        WHERE id = #{bookId}
+        FROM book_stock
+        WHERE id = #{bookStockId}
     </select>
 
     <insert id="loanBook">
         INSERT INTO book_loan(
-            book_id
+            book_stock_id
             , user_id
         )
         VALUES(
-            #{bookId}
+            #{bookStockId}
             , #{userId}
         )
     </insert>
 
     <update id="returnStatusUpdate">
-        UPDATE book
+        UPDATE book_stock
         SET return_status = #{status}
-        WHERE id = #{bookId}
+        WHERE id = #{bookStockId}
     </update>
 
-    <select id="findBookId" resultType="int">
+    <select id="findBookIdFromBookLoan" resultType="int">
         SELECT book_id
         FROM book_loan
         WHERE id = #{bookLoanId}
+    </select>
+    <select id="findBookIdFromBook" resultType="int">
+        SELECT id
+        FROM book
+        WHERE title = #{title}
+          AND author = #{author}
+          AND publisher = #{publisher}
     </select>
 
     <update id="returnBook">
@@ -75,9 +89,42 @@
     </update>
 
     <select id="loanHistory" resultMap="loanHistoryList">
-        SELECT b.id, b.title, b.author, b.publisher, bl.user_id, bl.loan_date, bl.return_date
+        SELECT bl.id as book_loan_id
+             , bs.id as book_stock_id
+             , b.id as book_id
+             , b.title
+             , b.author
+             , b.publisher
+             , bl.user_id
+             , bl.loan_date
+             , bl.return_date
         FROM book b
-        JOIN book_loan bl ON b.id = bl.book_id
-        WHERE b.title = #{title}
+        JOIN book_stock bs ON b.id = bs.book_id
+        JOIN book_loan bl ON bs.id = bl.book_stock_id
+        <where>
+            <choose>
+                <when test="bookId != null and bookId != 0">
+                    AND b.id = #{bookId}
+                </when>
+                <when test="bookStockId != null and bookStockId != 0">
+                    AND bs.id = #{bookStockId}
+                </when>
+                <when test="bookLoanId != null and bookLoanId != 0">
+                    AND bl.id = #{bookLoanId}
+                </when>
+                <when test="title != null and title != ''">
+                    AND title = #{title}
+                </when>
+                <when test="author != null and author != ''">
+                    AND author = #{author}
+                </when>
+                <when test="publisher != null and publisher != ''">
+                    AND publisher = #{publisher}
+                </when>
+                <when test="userId != null and userId != ''">
+                    AND user_id = #{userId}
+                </when>
+            </choose>
+        </where>
     </select>
 </mapper>

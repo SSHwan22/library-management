@@ -8,6 +8,7 @@ public class BookRequestDto {
 
     @Getter
     public static class BookInfo {
+        private int bookId;
         @NotEmpty(message = "제목 값이 필요합니다.")
         private String title;
         @NotEmpty(message = "저자 값이 필요합니다.")

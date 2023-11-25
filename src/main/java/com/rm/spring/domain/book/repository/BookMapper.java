@@ -15,15 +15,18 @@ public interface BookMapper {
 
     int updateBook(int bookId, BookRequestDto.BookInfo requestDto);
 
-    int loanBook(int bookId, String userId);
+    int loanBook(int bookStockId, String userId);
 
-    Integer findBookId(int bookLoanId);
+    Integer findBookIdFromBookLoan(int bookLoanId);
+    Integer findBookIdFromBook(BookRequestDto.BookInfo bookRequestDto);
 
     int returnBook(int bookLoanId);
 
     boolean bookReturnStatus(int bookId);
 
-    int returnStatusUpdate(int bookId, boolean status);
+    int returnStatusUpdate(int bookStockId, boolean status);
 
-    List<BookResponseDto> loanHistory(String title);
+    List<BookResponseDto> loanHistory(Integer bookId, Integer bookStockId, Integer bookLoanId, String title, String author, String publisher, String userId);
+
+    void registerBookStock(int bookId);
 }

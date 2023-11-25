@@ -4,7 +4,11 @@ import com.rm.spring.common.dto.response.ErrorResponse;
 import com.rm.spring.common.exception.RestApiException;
 import com.rm.spring.common.model.CommonErrorCode;
 import com.rm.spring.common.model.ErrorCode;
+import com.rm.spring.common.model.SqlErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.binding.BindingException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -35,6 +39,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleBindException(BindException e) {
         log.error(e.getMessage(), e);
         return handleExceptionInternal(e, CommonErrorCode.INVALID_PARAMETER);
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<Object> handleDuplicateKey(DuplicateKeyException e){
+        log.error(e.getMessage(), e);
+        return handleExceptionInternal(SqlErrorCode.DUPLICATE_KEY, SqlErrorCode.DUPLICATE_KEY.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> hadleIntegrityViolation(DataIntegrityViolationException e) {
+        log.error(e.getMessage(), e);
+        return handleExceptionInternal(SqlErrorCode.FOREIGN_KEY_CONSTRAINT_VIOLATION, SqlErrorCode.FOREIGN_KEY_CONSTRAINT_VIOLATION.getMessage());
+    }
+
+    @ExceptionHandler(BindingException.class)
+    public ResponseEntity<Object> handleBindingException(BindingException e) {
+        log.error(e.getMessage(), e);
+        return handleExceptionInternal(SqlErrorCode.NOT_FOUND, SqlErrorCode.NOT_FOUND.getMessage());
     }
 
     @ExceptionHandler({Exception.class})

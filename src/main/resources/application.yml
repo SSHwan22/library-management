@@ -10,5 +10,5 @@ spring:
     username: rmsoftlibrarymanagement
     password: RMsoft20231121
 mybatis:
-  config-location: classpath:mybatis-config.xml #??? typeAlias ?? ? ?? ?? ??
+  config-location: classpath:mybatis-config.xml
   mapper-locations: mapper/*.xml
