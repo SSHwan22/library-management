@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Object> hadleIntegrityViolation(DataIntegrityViolationException e) {
+    public ResponseEntity<Object> handleIntegrityViolation(DataIntegrityViolationException e) {
         log.error(e.getMessage(), e);
         return handleExceptionInternal(SqlErrorCode.FOREIGN_KEY_CONSTRAINT_VIOLATION, SqlErrorCode.FOREIGN_KEY_CONSTRAINT_VIOLATION.getMessage());
     }
