@@ -19,6 +19,7 @@ public class BookController {
     @PostMapping("")
     public ApiResponse registerBook(@RequestBody @Valid BookRequestDto.BookInfo requestDto){
         bookService.registerBook(requestDto);
+        System.out.println("test");
         return ApiResponse.SUCCESS;
     }
 
